@@ -7,13 +7,13 @@ import net.lab1024.smartadmin.common.domain.PageParamDTO;
 import java.util.Date;
 
 /**
- * [ 牡丹花 ]
+ * 查询参数 [ 活动 ]
  *
- * @author 卓大
+ * @author 莫京
  * @version 1.0
- * @company 1024创新实验室( www.1024lab.net )
- * @copyright (c)  1024创新实验室( www.1024lab.net )Inc. All rights reserved.
- * @date 2020-04-06 18:17:56
+ * @company 华景城建筑设计有限公司(www.hjcadc.com)
+ * @copyright (c)  华景城建筑设计有限公司( www.hjcadc.com )Inc. All rights reserved.
+ * @date 2021-08-10 15:26:56
  * @since JDK1.8
  */
 @Data

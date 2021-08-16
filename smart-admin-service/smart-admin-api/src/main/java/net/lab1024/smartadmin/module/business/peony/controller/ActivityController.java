@@ -10,7 +10,7 @@ import net.lab1024.smartadmin.module.business.peony.domain.dto.ActivityAddDTO;
 import net.lab1024.smartadmin.module.business.peony.domain.dto.ActivityQueryDTO;
 import net.lab1024.smartadmin.module.business.peony.domain.vo.ActivityVO;
 
-import net.lab1024.smartadmin.module.business.peony.service.Activity1Service;
+import net.lab1024.smartadmin.module.business.peony.service.ActivityService;
 
 import net.lab1024.smartadmin.util.HttpUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +23,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -41,8 +40,7 @@ import java.util.Map;
 public class ActivityController extends BaseController {
 
     @Autowired
-    @Qualifier("activityServiceImpl")
-    private Activity1Service activityService;
+    private ActivityService as;
 
     /**
      * 关键词输入解析地址
@@ -81,17 +79,18 @@ public class ActivityController extends BaseController {
         return ResponseDTO.succData(data, "tmapL方法调用成功");
     }
 
+
     @ApiOperation(value = "分页查询活动",notes = "@author 莫京")
-    @PostMapping("/activity/page/qu")
-    public ResponseDTO<PageResultDTO<ActivityVO>> quByPage(@RequestBody ActivityQueryDTO queryDTO) {
-        ResponseDTO<PageResultDTO<ActivityVO>> pageResultDTOResponseDTO = activityService.queryByPage(queryDTO);
+    @PostMapping("/activity/page/query")
+    public ResponseDTO<PageResultDTO<ActivityVO>> queryByPage(@RequestBody ActivityQueryDTO queryDTO) {
+        ResponseDTO<PageResultDTO<ActivityVO>> pageResultDTOResponseDTO = as.queryByPage(queryDTO);
         return pageResultDTOResponseDTO;
     }
 
     @ApiOperation(value = "添加活动",notes = "@author 莫京")
     @PostMapping("/activity/add")
     public ResponseDTO<String> add(@RequestBody @Validated ActivityAddDTO addTO){
-        return activityService.add(addTO);
+        return as.add(addTO);
     }
 
 

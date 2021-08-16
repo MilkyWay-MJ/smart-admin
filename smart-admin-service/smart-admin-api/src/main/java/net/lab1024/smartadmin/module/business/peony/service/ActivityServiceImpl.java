@@ -12,10 +12,10 @@ import net.lab1024.smartadmin.module.business.peony.domain.entity.ActivityEntity
 import net.lab1024.smartadmin.module.business.peony.domain.vo.ActivityVO;
 import net.lab1024.smartadmin.util.SmartBeanUtil;
 import net.lab1024.smartadmin.util.SmartPageUtil;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.List;
 
 /**
  * [ 活动 ]
@@ -28,7 +28,8 @@ import java.util.List;
  * @since JDK1.8
  */
 @Service
-public class ActivityServiceImpl extends ServiceImpl<ActivityDao, ActivityEntity> implements Activity1Service {
+@Primary
+public class ActivityServiceImpl extends ServiceImpl<ActivityDao, ActivityEntity> implements ActivityService {
 
     @Resource
     private ActivityDao activityDao;

@@ -11,9 +11,9 @@ import java.util.Date;
  *
  * @author 莫京
  * @version 1.0
- * @company 1024创新实验室( www.1024lab.net )
- * @copyright (c) 2018 1024创新实验室( www.1024lab.net )Inc. All rights reserved.
- * @date  2020-04-06 18:17:56
+ * @company 华景城建筑设计有限公司(www.hjcadc.com)
+ * @copyright (c)  华景城建筑设计有限公司( www.hjcadc.com )Inc. All rights reserved.
+ * @date 2021-08-10 15:26:56
  * @since JDK1.8
  */
 @Data
@@ -42,5 +42,8 @@ public class ActivityAddDTO {
 
     @ApiModelProperty("纬度值")
     private Double latitude;
+
+    @ApiModelProperty("签到半径")
+    private Integer signRadius;
 
 }

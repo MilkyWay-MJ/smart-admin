@@ -6,9 +6,9 @@ import net.lab1024.smartadmin.common.domain.ResponseDTO;
 import net.lab1024.smartadmin.module.business.peony.domain.dto.ActivityAddDTO;
 import net.lab1024.smartadmin.module.business.peony.domain.dto.ActivityQueryDTO;
 import net.lab1024.smartadmin.module.business.peony.domain.entity.ActivityEntity;
-import net.lab1024.smartadmin.module.business.peony.domain.entity.SignEntity;
 import net.lab1024.smartadmin.module.business.peony.domain.vo.ActivityVO;
-import net.lab1024.smartadmin.module.business.peony.domain.vo.SignVO;
+
+import java.util.List;
 
 
 /**
@@ -17,9 +17,8 @@ import net.lab1024.smartadmin.module.business.peony.domain.vo.SignVO;
  * @Date: 2021年08月12日 19:08
  * @Description:
  */
-public interface SignServiceInterface extends IService<SignEntity> {
+public interface ActivityService extends IService<ActivityEntity> {
 
-    SignEntity selectByOpenid(String openid);
-
-
+    ResponseDTO<PageResultDTO<ActivityVO>> queryByPage(ActivityQueryDTO queryDTO);
+    ResponseDTO<String> add(ActivityAddDTO addDTO);
 }

@@ -7,13 +7,13 @@ import net.lab1024.smartadmin.common.domain.BaseEntity;
 import java.util.Date;
 
 /**
- * [ 活动 ]
+ * 数据库映射 [ 活动 ]
  *
  * @author 莫京
  * @version 1.0
- * @company 1024创新实验室( www.1024lab.net )
- * @copyright (c)  1024创新实验室( www.1024lab.net )Inc. All rights reserved.
- * @date 2020-04-06 18:17:56
+ * @company 华景城建筑设计有限公司(www.hjcadc.com)
+ * @copyright (c)  华景城建筑设计有限公司( www.hjcadc.com )Inc. All rights reserved.
+ * @date 2021-08-10 15:26:56
  * @since JDK1.8
  */
 @Data
@@ -40,6 +40,11 @@ public class ActivityEntity extends BaseEntity{
      * 纬度值
      */
     private Double latitude;
+
+    /**
+     * 签到半径
+     */
+    private Integer signRadius;
 
     /**
      * 活动开始时间

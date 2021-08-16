@@ -7,10 +7,11 @@ import io.swagger.annotations.ApiOperation;
 import net.lab1024.smartadmin.common.anno.NoNeedLogin;
 import net.lab1024.smartadmin.common.controller.BaseController;
 import net.lab1024.smartadmin.module.business.peony.domain.dto.SignDTO;
+import net.lab1024.smartadmin.module.business.peony.domain.entity.ActivityEntity;
 import net.lab1024.smartadmin.module.business.peony.domain.entity.SignEntity;
 import net.lab1024.smartadmin.module.business.peony.domain.entity.WxBean;
-import net.lab1024.smartadmin.module.business.peony.domain.vo.SignVO;
-import net.lab1024.smartadmin.module.business.peony.service.SignServiceInterface;
+import net.lab1024.smartadmin.module.business.peony.service.ActivityService;
+import net.lab1024.smartadmin.module.business.peony.service.SignService;
 import net.lab1024.smartadmin.util.HttpUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,7 +41,10 @@ import java.util.Map;
 public class SignController extends BaseController {
 
     @Autowired
-    private SignServiceInterface signService;
+    private SignService signService;
+
+    @Autowired
+    private ActivityService activitiesService;
 
     @Autowired
     private WxBean wxBean;
@@ -88,10 +92,18 @@ public class SignController extends BaseController {
             return data;
         }
         SignEntity one = signService.selectByOpenid(openid);
+        String activityName = "67";
+        QueryWrapper queryWrapper = new QueryWrapper();
+        queryWrapper.allEq(new HashMap<String, Object>() {{
+            put("name", activityName);
+        }});
+        ActivityEntity activity = activitiesService.getOne(queryWrapper);
         data.put("user", one);
-        System.out.println("one = " + one);
+        data.put("activity", activity);
         return data;
     }
+
+
 
     /**
      * 点击"立即签到"按钮,新增签到信息

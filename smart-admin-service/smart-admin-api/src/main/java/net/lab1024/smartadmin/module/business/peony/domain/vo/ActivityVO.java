@@ -33,6 +33,9 @@ public class ActivityVO {
     @ApiModelProperty("纬度值")
     private String latitude;
 
+    @ApiModelProperty("签到半径")
+    private Integer signRadius;
+
     @ApiModelProperty("活动简介")
     private String brief;
 
@@ -44,11 +47,11 @@ public class ActivityVO {
     private Date validTime;
 
     @ApiModelProperty("活动开始时间")
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm", timezone = "GMT+8")
     private Date startTime;
 
     @ApiModelProperty("活动结束时间")
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm", timezone = "GMT+8")
     private Date endTime;
 
     @ApiModelProperty("创建时间")
