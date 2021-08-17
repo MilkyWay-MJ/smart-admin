@@ -1,6 +1,6 @@
-### SmartAdmin
+### SmartAdminSign
 #### 简介
-基于河南·洛阳 [1024创新实验室](https://www.1024lab.net/)的项目而做的一个微信签到小程序，主要功能是给公司不同活动提供定位签到功能。下面是原脚手架连接：
+基于河南·洛阳 [1024创新实验室](https://www.1024lab.net/)的smart-admin项目而做的一个微信签到小程序，主要功能是给公司不同活动提供定位签到功能。下面是原脚手架连接：
 
 #### 开源地址   (*欢迎 Star ~ ~  ╰(￣▽￣)╭*)
 github: [https://github.com/1024-lab/smart-admin](https://github.com/1024-lab/smart-admin)  
