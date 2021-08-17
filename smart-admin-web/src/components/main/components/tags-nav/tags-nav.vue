@@ -6,6 +6,7 @@
           <Icon :size="14" type="icon iconfont iconguanbianniu" />
         </Button>
         <DropdownMenu slot="list">
+          <DropdownItem name="refresh">刷新</DropdownItem>
           <DropdownItem name="close-all">关闭所有</DropdownItem>
           <DropdownItem name="close-others">关闭其他</DropdownItem>
         </DropdownMenu>
@@ -82,6 +83,7 @@ export default {
       contextMenuTop: 0,
       visible: false,
       menuList: {
+        refresh: '刷新',
         others: '关闭其他',
         all: '关闭所有'
       }
