@@ -3,6 +3,7 @@ package net.lab1024.smartadmin.module.business.peony.controller;
 import com.alibaba.fastjson.JSON;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import net.lab1024.smartadmin.common.anno.NoNeedLogin;
 import net.lab1024.smartadmin.common.controller.BaseController;
 import net.lab1024.smartadmin.common.domain.PageResultDTO;
 import net.lab1024.smartadmin.common.domain.ResponseDTO;
@@ -16,13 +17,11 @@ import net.lab1024.smartadmin.util.HttpUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -36,6 +35,7 @@ import java.util.Map;
  * @since JDK1.8
  */
 @RestController
+@RequestMapping("/activity")
 @Api(tags = {"活动"})
 public class ActivityController extends BaseController {
 
@@ -43,7 +43,7 @@ public class ActivityController extends BaseController {
     private ActivityService as;
 
     /**
-     * 关键词输入解析地址
+     * 后台：关键词输入解析地址
      *
      * @param region  地区
      * @param address 搜索关键词
@@ -62,7 +62,7 @@ public class ActivityController extends BaseController {
     }
 
     /**
-     * 逆地址解析（位置描述）
+     * 后台：逆地址解析（位置描述）
      *
      * @param location 经纬度（GCJ02坐标系），格式：location=lat<纬度>,lng<经度>, eg: location= 39.984154,116.307490
      * @return: java.util.Map
@@ -80,20 +80,47 @@ public class ActivityController extends BaseController {
     }
 
 
-    @ApiOperation(value = "分页查询活动",notes = "@author 莫京")
-    @PostMapping("/activity/page/query")
+    /**
+     * 后台：获取活动分页列表
+     *
+     * @param queryDTO
+     * @return: net.lab1024.smartadmin.common.domain.ResponseDTO<net.lab1024.smartadmin.common.domain.PageResultDTO < net.lab1024.smartadmin.module.business.peony.domain.vo.ActivityVO>>
+     * @Author: 莫京 2021/8/17
+     */
+    @ApiOperation(value = "分页查询活动", notes = "@author 莫京")
+    @PostMapping("/page/query")
     public ResponseDTO<PageResultDTO<ActivityVO>> queryByPage(@RequestBody ActivityQueryDTO queryDTO) {
         ResponseDTO<PageResultDTO<ActivityVO>> pageResultDTOResponseDTO = as.queryByPage(queryDTO);
         return pageResultDTOResponseDTO;
     }
 
-    @ApiOperation(value = "添加活动",notes = "@author 莫京")
-    @PostMapping("/activity/add")
-    public ResponseDTO<String> add(@RequestBody @Validated ActivityAddDTO addTO){
+    /**
+     * 后台：新增活动
+     *
+     * @param addTO
+     * @return: net.lab1024.smartadmin.common.domain.ResponseDTO<java.lang.String>
+     * @Author: 莫京 2021/8/17
+     */
+    @ApiOperation(value = "添加活动", notes = "@author 莫京")
+    @PostMapping("/add")
+    public ResponseDTO<String> add(@RequestBody @Validated ActivityAddDTO addTO) {
         return as.add(addTO);
     }
 
-
+    /**
+     * 小程序：获取未到结束时间的活动
+     * @param
+     * @return: java.util.Map
+     * @Author: 莫京 2021/8/17
+    */
+    @RequestMapping("/getActivities")
+    @NoNeedLogin
+    public Map getOngoingActivities(){
+        Map<String, List> data = new HashMap<>();
+        List<ActivityVO> ongoingActivities = as.getOngoingActivities();
+        data.put("ongoingActivities", ongoingActivities);
+        return data;
+    }
 
 
 //

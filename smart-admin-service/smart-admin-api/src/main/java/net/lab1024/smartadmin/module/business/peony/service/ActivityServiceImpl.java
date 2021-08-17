@@ -1,5 +1,6 @@
 package net.lab1024.smartadmin.module.business.peony.service;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -16,6 +17,8 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.Date;
+import java.util.List;
 
 /**
  * [ 活动 ]
@@ -39,6 +42,7 @@ public class ActivityServiceImpl extends ServiceImpl<ActivityDao, ActivityEntity
      * @author 莫京
      * @date 2021-08-10 18:17:56
      */
+    @Override
     public ResponseDTO<PageResultDTO<ActivityVO>> queryByPage(ActivityQueryDTO queryDTO) {
         Page page = SmartPageUtil.convert2QueryPage(queryDTO);
         IPage<ActivityVO> voList = activityDao.queryByPage(page, queryDTO);
@@ -51,11 +55,24 @@ public class ActivityServiceImpl extends ServiceImpl<ActivityDao, ActivityEntity
      * @author 莫京
      * @date 2021-08-10 18:17:56
      */
+    @Override
     public ResponseDTO<String> add(ActivityAddDTO addDTO) {
         ActivityEntity entity = SmartBeanUtil.copy(addDTO, ActivityEntity.class);
         activityDao.insert(entity);
         return ResponseDTO.succ();
     }
+
+    @Override
+    public List<ActivityVO> getOngoingActivities() {
+        QueryWrapper queryWrapper = new QueryWrapper();
+        queryWrapper.ge("end_time",new Date());
+        return (List<ActivityVO>)activityDao.selectList(queryWrapper);
+    }
+
+
+
+
+
 //
 //    /**
 //     * 编辑

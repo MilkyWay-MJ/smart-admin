@@ -19,7 +19,7 @@ import net.lab1024.smartadmin.module.business.peony.domain.vo.SignVO;
  */
 public interface SignService extends IService<SignEntity> {
 
-    SignEntity selectByOpenid(String openid);
+    SignEntity selectByOpenidAndActivityid(String openid, String activityid);
 
 
 }

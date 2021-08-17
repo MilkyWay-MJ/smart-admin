@@ -28,10 +28,11 @@ public class SignServiceImpl extends ServiceImpl<SignDao, SignEntity> implements
     private SignDao signDao;
 
     @Override
-    public SignEntity selectByOpenid(String openid) {
+    public SignEntity selectByOpenidAndActivityid(String openid, String activityid) {
         QueryWrapper<SignEntity> queryWrapper = new QueryWrapper<>();
         queryWrapper.allEq(new HashMap<String, Object>() {{
             put("open_id", openid);
+            put("activity_id", activityid);
         }});
         SignEntity signEntity = signDao.selectOne(queryWrapper);
 

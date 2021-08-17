@@ -10,6 +10,7 @@ import net.lab1024.smartadmin.module.business.peony.domain.dto.SignDTO;
 import net.lab1024.smartadmin.module.business.peony.domain.entity.ActivityEntity;
 import net.lab1024.smartadmin.module.business.peony.domain.entity.SignEntity;
 import net.lab1024.smartadmin.module.business.peony.domain.entity.WxBean;
+import net.lab1024.smartadmin.module.business.peony.domain.vo.ActivityVO;
 import net.lab1024.smartadmin.module.business.peony.service.ActivityService;
 import net.lab1024.smartadmin.module.business.peony.service.SignService;
 import net.lab1024.smartadmin.util.HttpUtils;
@@ -85,21 +86,14 @@ public class SignController extends BaseController {
     @GetMapping("/getByOpenid")
     @NoNeedLogin
     @ApiOperation(value = "根据openid获取签到信息", notes = "@author 莫京")
-    public Map getByOpenid(String openid) {
+    public Map getByOpenidAndActivityid(String openid, String activityid) {
         Map data = new HashMap();
         if (StringUtils.isEmpty(openid)) {
             data.put("msg", "获取openid失败");
             return data;
         }
-        SignEntity one = signService.selectByOpenid(openid);
-        String activityName = "67";
-        QueryWrapper queryWrapper = new QueryWrapper();
-        queryWrapper.allEq(new HashMap<String, Object>() {{
-            put("name", activityName);
-        }});
-        ActivityEntity activity = activitiesService.getOne(queryWrapper);
+        SignEntity one = signService.selectByOpenidAndActivityid(openid, activityid);
         data.put("user", one);
-        data.put("activity", activity);
         return data;
     }
 
@@ -112,20 +106,18 @@ public class SignController extends BaseController {
      * @return: java.util.Map
      * @Author: 莫京 2021/8/5
      */
-    @GetMapping("/registerByOpenid")
+    @GetMapping("/signIn")
     @NoNeedLogin
     @ApiOperation(value = "新增签到信息", notes = "@author 莫京")
-    public Map registerByOpenid(SignDTO signDTO) {
+    public Map signByOpenidAndActivityid(SignDTO signDTO) {
         Map data = new HashMap();
         // 获取openid失败
         if (StringUtils.isEmpty(signDTO.getOpenId())) {
             data.put("msg", "获取openid失败");
         } else {
             // 查询是否已签到过
-            QueryWrapper<SignEntity> queryWrapper = new QueryWrapper<SignEntity>().eq("open_id", signDTO.getOpenId()).last("LIMIT 1");
-            SignEntity one = signService.getOne(queryWrapper);
-            System.out.println("one = " + one);
-            if (one != null) {
+            Map signed = this.getByOpenidAndActivityid(signDTO.getOpenId(), signDTO.getActivityId());
+            if (signed.get("user") != null) {
                 data.put("is_registered", true);
                 return data;
             }

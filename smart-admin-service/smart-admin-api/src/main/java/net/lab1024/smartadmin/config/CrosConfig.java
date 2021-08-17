@@ -17,7 +17,7 @@ public class CrosConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")// 允许跨域访问的路径
-                .allowedOrigins("http://192.168.13.240:8080")// 允许跨域访问的源
+                .allowedOrigins("http://192.168.13.240:9528")// 允许跨域访问的源
                 .allowedMethods("GET", "POST", "OPTIONS", "PUT", "DELETE")// 允许请求方法
                 .allowedHeaders("*")// 允许头部设置
                 .allowCredentials(true)// 是否发送cookie

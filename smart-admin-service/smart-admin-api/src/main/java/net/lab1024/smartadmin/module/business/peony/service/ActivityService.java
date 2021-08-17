@@ -19,6 +19,28 @@ import java.util.List;
  */
 public interface ActivityService extends IService<ActivityEntity> {
 
+    /**
+     * 获取分页活动
+     * @param queryDTO
+     * @return: net.lab1024.smartadmin.common.domain.ResponseDTO<net.lab1024.smartadmin.common.domain.PageResultDTO<net.lab1024.smartadmin.module.business.peony.domain.vo.ActivityVO>>
+     * @Author: 莫京 2021/8/17
+    */
     ResponseDTO<PageResultDTO<ActivityVO>> queryByPage(ActivityQueryDTO queryDTO);
+
+    /**
+     * 新增活动
+     * @param addDTO
+     * @return: net.lab1024.smartadmin.common.domain.ResponseDTO<java.lang.String>
+     * @Author: 莫京 2021/8/17
+    */
     ResponseDTO<String> add(ActivityAddDTO addDTO);
+
+    /**
+     * 获取没到结束时间的活动
+     * @param
+     * @return: java.util.List<net.lab1024.smartadmin.module.business.peony.domain.vo.ActivityVO>
+     * @Author: 莫京 2021/8/17
+    */
+    List<ActivityVO>  getOngoingActivities();
+
 }
