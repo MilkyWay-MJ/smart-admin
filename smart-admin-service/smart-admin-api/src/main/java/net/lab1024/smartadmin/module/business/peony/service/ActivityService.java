@@ -28,12 +28,12 @@ public interface ActivityService extends IService<ActivityEntity> {
     ResponseDTO<PageResultDTO<ActivityVO>> queryByPage(ActivityQueryDTO queryDTO);
 
     /**
-     * 新增活动
+     * 新增/更新活动
      * @param addDTO
      * @return: net.lab1024.smartadmin.common.domain.ResponseDTO<java.lang.String>
      * @Author: 莫京 2021/8/17
     */
-    ResponseDTO<String> add(ActivityAddDTO addDTO);
+    ResponseDTO<String> saveAct(ActivityAddDTO addDTO);
 
     /**
      * 获取没到结束时间的活动

@@ -51,14 +51,18 @@ public class ActivityServiceImpl extends ServiceImpl<ActivityDao, ActivityEntity
     }
 
     /**
-     * 添加
+     * 添加/更新
      * @author 莫京
      * @date 2021-08-10 18:17:56
      */
     @Override
-    public ResponseDTO<String> add(ActivityAddDTO addDTO) {
+    public ResponseDTO<String> saveAct(ActivityAddDTO addDTO) {
         ActivityEntity entity = SmartBeanUtil.copy(addDTO, ActivityEntity.class);
-        activityDao.insert(entity);
+        if (entity.getId() == null) {
+            activityDao.insert(entity);
+        } else {
+            activityDao.updateById(entity);
+        }
         return ResponseDTO.succ();
     }
 

@@ -95,16 +95,16 @@ public class ActivityController extends BaseController {
     }
 
     /**
-     * 后台：新增活动
+     * 后台：新增/更新活动
      *
      * @param addTO
      * @return: net.lab1024.smartadmin.common.domain.ResponseDTO<java.lang.String>
      * @Author: 莫京 2021/8/17
      */
     @ApiOperation(value = "添加活动", notes = "@author 莫京")
-    @PostMapping("/add")
-    public ResponseDTO<String> add(@RequestBody @Validated ActivityAddDTO addTO) {
-        return as.add(addTO);
+    @PostMapping("/save")
+    public ResponseDTO<String> saveAct(@RequestBody @Validated ActivityAddDTO addTO) {
+        return as.saveAct(addTO);
     }
 
     /**
