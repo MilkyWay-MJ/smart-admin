@@ -182,8 +182,8 @@
         <FormItem label="删除数据">
           <Card style="width: 350px; height: 250px; overflow-y: scroll">
             <ul>
-              <li v-for="item in mainTableSelectArray">
-                <a href="#">{{ item.id }}</a>
+              <li v-for="item in mainTableSelectArray" >
+                <a href="#">{{ item.id }} {{item.name}}</a>
               </li>
             </ul>
           </Card>
@@ -284,6 +284,7 @@ export default {
         loading: false,
         //表格数据
         data: [],
+     
         //表格列
         columnArray: [
           {
@@ -332,6 +333,14 @@ export default {
             key: "updateTime",
             tableColumn: "t_activity.update_time",
             sortable: "custom",
+          },
+          {
+            title: "活动状态",
+            align: "center",
+            key: "status",
+            tableColumn: "t_activity.status",
+            sortable: "custom",
+
           },
           {
             title: "操作",

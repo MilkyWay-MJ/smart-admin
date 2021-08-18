@@ -35,12 +35,12 @@
         />
       </FormItem>
       <FormItem label="签到范围(米)" prop="signRadius">
-        <InputNumber 
-          :min="1" 
+        <InputNumber
+          :min="1"
           :max="1000000"
           :precision="0"
           style="width: 368px"
-          v-model="form.signRadius" 
+          v-model="form.signRadius"
         />
       </FormItem>
       <FormItem label="签到截止时间" prop="validTime">
@@ -70,22 +70,24 @@
       <Form :label-width="80">
         <FormItem label="地址" prop="location">
           <Input v-model="form.location" style="width: 560px" />
-          <Button type="primary" icon="ios-search" @click="searchLocation">搜索</Button>
+          <Button type="primary" icon="ios-search" @click="searchLocation"
+            >搜索</Button
+          >
         </FormItem>
         <Row index="">
           <Col span="12">
             <FormItem label="经度" prop="longitude">
-              <Input v-model="form.longitude" style="width: 250px" readonly/>
+              <Input v-model="form.longitude" style="width: 250px" readonly />
             </FormItem>
           </Col>
           <Col span="12">
             <FormItem label="纬度" prop="latitude">
-              <Input v-model="form.latitude" style="width: 250px" readonly/>
-              </FormItem>
+              <Input v-model="form.latitude" style="width: 250px" readonly />
+            </FormItem>
           </Col>
         </Row>
 
-        <TencentMap ref="child" v-on:getLocationParam="getLocationParam"/>
+        <TencentMap ref="child" v-on:getLocationParam="getLocationParam" />
       </Form>
     </Modal>
     <!-------地图选点 end------->
@@ -94,6 +96,7 @@
 <script>
 import { activityApi } from "@/api/activity";
 import TencentMap from "@/views/support/tencent-map/map";
+import { utils } from "@/lib/util";
 export default {
   name: "CodeReviewListForm",
   components: {
@@ -138,11 +141,10 @@ export default {
         longitude: null,
         // 纬度值
         latitude: null,
-       
       },
 
       // 接收子组件的传参
-      receive:null,
+      receive: null,
 
       //表单验证
       formValidate: {
@@ -152,7 +154,7 @@ export default {
         location: [
           { required: true, message: "请输入活动举办地点", trigger: "blur" },
         ],
-      
+
         // 开始时间
         // startTime:[{ required: true, message: '请输入开始时间', trigger: 'blur' }],
         // // 结束时间
@@ -206,13 +208,13 @@ export default {
 
     // 获取开始时间、结束时间、签到截止时间
     getStartTime(time) {
-      this.form.startTime = time + ":00";
+      // this.form.startTime = time == "" ? time : time + ":00";
     },
     getEndTime(time) {
-      this.form.endTime = time + ":00";
+      // this.form.endTime = time == "" ? time : time + ":00";
     },
     getValidTime(time) {
-      this.form.validTime = time + ":00";
+      // this.form.validTime = time == "" ? time : time + ":00";
     },
 
     // 父组件调用子组件的getLoc（搜索某一地点名）方法
@@ -225,14 +227,15 @@ export default {
       this.receive = val;
       if (this.receive.search == 1) {
         this.form.latitude = this.receive.data[0].location.lat;
-        this.form.longitude = this.receive.data[0].location.lng;  
+        this.form.longitude = this.receive.data[0].location.lng;
       } else {
         console.log(this.receive);
-        if(this.receive.status == 0) {
+        if (this.receive.status == 0) {
           this.form.latitude = this.receive.result.location.lat;
-          this.form.longitude = this.receive.result.location.lng; 
-          this.form.location = this.receive.result.formatted_addresses.recommend;
-        } 
+          this.form.longitude = this.receive.result.location.lng;
+          this.form.location =
+            this.receive.result.formatted_addresses.recommend;
+        }
       }
     },
 
@@ -266,7 +269,9 @@ export default {
     },
     async add() {
       this.$Spin.show();
-
+      this.form.startTime = this.form.startTime == '' || this.form.startTime == null ? '' : this.getDateStr(this.form.startTime);
+      this.form.endTime = this.form.endTime == '' || this.form.endTime == null ? '' : this.getDateStr(this.form.endTime);
+      this.form.validTime = this.form.validTime == '' || this.form.validTime == null ? '' : this.getDateStr(this.form.validTime);
       let res = await activityApi.addActivity(this.form);
       // debugger;
       this.$Message.success(res.msg);
@@ -276,11 +281,38 @@ export default {
     },
     async update() {
       this.$Spin.show();
+      this.form.startTime = this.form.startTime == '' || this.form.startTime == null ? '' : this.getDateStr(this.form.startTime);
+      this.form.endTime = this.form.endTime == '' || this.form.endTime == null ? '' : this.getDateStr(this.form.endTime);
+      this.form.validTime = this.form.validTime == '' || this.form.validTime == null ? '' : this.getDateStr(this.form.validTime);
       let res = await activityApi.updateActivity(this.form);
       this.$Message.success(res.msg);
       this.$Spin.hide();
       this.resetForm();
       this.$emit("on-form-close");
+    },
+
+    getDateStr (d) {
+      const year = d.getFullYear();
+      const month = d.getMonth() + 1 < 10 ? '0' + (d.getMonth() + 1) : d.getMonth() + 1;
+      const date = d.getDate() < 10 ? '0' + d.getDate() : d.getDate();
+      const hours = d.getHours() < 10 ? '0' + d.getHours() : d.getHours();
+      const minutes = d.getMinutes() < 10 ? '0' + d.getMinutes() : d.getMinutes();
+      const second = d.getSeconds() < 10 ? '0' + d.getSeconds() : d.getSeconds();
+      let resStr = "";
+
+      resStr =
+        year +
+        "-" +
+        month +
+        "-" +
+        date +
+        " " +
+        hours +
+        ":" +
+        minutes +
+        ":" +
+        second;
+      return resStr;
     },
   },
 };
