@@ -3,6 +3,7 @@ package net.lab1024.smartadmin.module.business.peony.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import net.lab1024.smartadmin.common.domain.PageResultDTO;
 import net.lab1024.smartadmin.common.domain.ResponseDTO;
+import net.lab1024.smartadmin.common.domain.ValidateList;
 import net.lab1024.smartadmin.module.business.peony.domain.dto.ActivityAddDTO;
 import net.lab1024.smartadmin.module.business.peony.domain.dto.ActivityQueryDTO;
 import net.lab1024.smartadmin.module.business.peony.domain.entity.ActivityEntity;
@@ -43,4 +44,11 @@ public interface ActivityService extends IService<ActivityEntity> {
     */
     List<ActivityVO>  getOngoingActivities();
 
+    /**
+     * 批量删除活动
+     * @param idList
+     * @return: net.lab1024.smartadmin.common.domain.ResponseDTO<java.lang.String>
+     * @Author: 莫京 2021/8/18
+    */
+    ResponseDTO<String> deleteByIds(ValidateList<Long> idList);
 }

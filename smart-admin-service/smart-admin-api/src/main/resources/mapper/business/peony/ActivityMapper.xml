@@ -59,6 +59,12 @@
         order by id desc
     </select>
 
+    <delete id="deleteByIdList">
+        delete from t_activity where id in
+        <foreach collection="idList" open="(" close=")" separator="," item="item">
+            #{item}
+        </foreach>
+    </delete>
 <!--    <select id="queryAllExportData" resultMap="PeonyExcelVO">-->
 <!--        select-->
 <!--           id,-->

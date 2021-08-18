@@ -6,6 +6,9 @@ import lombok.Data;
 
 import java.util.Date;
 
+import static net.lab1024.smartadmin.module.business.peony.constant.ActivityStatusEnum.ACTIVITY_STATUS_END;
+import static net.lab1024.smartadmin.module.business.peony.constant.ActivityStatusEnum.ACTIVITY_STATUS_GOING;
+
 /**
  *  [ 活动 ]
  *
@@ -62,6 +65,18 @@ public class ActivityVO {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date updateTime;
 
+    @ApiModelProperty("活动状态")
+    private String status;
 
 
+
+    public String getStatus() {
+        Date now = new Date();
+        if (now.compareTo(this.endTime) <= 0) {
+            this.status = ACTIVITY_STATUS_GOING.getStatusName();
+        } else {
+            this.status = ACTIVITY_STATUS_END.getStatusName();
+        }
+        return status;
+    }
 }

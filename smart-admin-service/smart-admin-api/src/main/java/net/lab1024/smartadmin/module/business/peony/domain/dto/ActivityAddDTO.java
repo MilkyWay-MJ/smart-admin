@@ -19,6 +19,9 @@ import java.util.Date;
 @Data
 public class ActivityAddDTO {
 
+    @ApiModelProperty("ID")
+    private Long id;
+
     @ApiModelProperty("活动名称")
     private String name;
 

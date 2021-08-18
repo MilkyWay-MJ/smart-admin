@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import net.lab1024.smartadmin.common.domain.PageResultDTO;
 import net.lab1024.smartadmin.common.domain.ResponseDTO;
+import net.lab1024.smartadmin.common.domain.ValidateList;
 import net.lab1024.smartadmin.module.business.peony.dao.ActivityDao;
 import net.lab1024.smartadmin.module.business.peony.domain.dto.ActivityAddDTO;
 import net.lab1024.smartadmin.module.business.peony.domain.dto.ActivityQueryDTO;
@@ -66,6 +67,12 @@ public class ActivityServiceImpl extends ServiceImpl<ActivityDao, ActivityEntity
         return ResponseDTO.succ();
     }
 
+    /**
+     * 获取没到结束时间的活动
+     * @param
+     * @return: java.util.List<net.lab1024.smartadmin.module.business.peony.domain.vo.ActivityVO>
+     * @Author: 莫京 2021/8/17
+     */
     @Override
     public List<ActivityVO> getOngoingActivities() {
         QueryWrapper queryWrapper = new QueryWrapper();
@@ -73,8 +80,18 @@ public class ActivityServiceImpl extends ServiceImpl<ActivityDao, ActivityEntity
         return (List<ActivityVO>)activityDao.selectList(queryWrapper);
     }
 
-
-
+    /**
+     * 批量删除活动
+     * @param idList
+     * @return: net.lab1024.smartadmin.common.domain.ResponseDTO<java.lang.String>
+     * @Author: 莫京 2021/8/18
+     */
+    @Override
+    public ResponseDTO<String> deleteByIds(ValidateList<Long> idList) {
+        int i = activityDao.deleteBatchIds(idList);
+//        activityDao.deleteByIdList(idList);
+        return ResponseDTO.succ();
+    }
 
 
 //

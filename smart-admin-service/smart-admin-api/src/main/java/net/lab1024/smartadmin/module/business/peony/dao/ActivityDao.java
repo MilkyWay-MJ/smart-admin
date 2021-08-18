@@ -38,6 +38,12 @@ public interface ActivityDao extends BaseMapper<ActivityEntity> {
     */
     IPage<ActivityVO> queryByPage(Page page, @Param("queryDTO") ActivityQueryDTO queryDTO);
 
+    /**
+     * 根据id批量删除
+     * @param idList
+     * @return
+     */
+    void deleteByIdList(@Param("idList") List<Long> idList);
 
 //    /**
 //     * 根据id删除

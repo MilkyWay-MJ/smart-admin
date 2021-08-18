@@ -7,6 +7,7 @@ import net.lab1024.smartadmin.common.anno.NoNeedLogin;
 import net.lab1024.smartadmin.common.controller.BaseController;
 import net.lab1024.smartadmin.common.domain.PageResultDTO;
 import net.lab1024.smartadmin.common.domain.ResponseDTO;
+import net.lab1024.smartadmin.common.domain.ValidateList;
 import net.lab1024.smartadmin.module.business.peony.domain.dto.ActivityAddDTO;
 import net.lab1024.smartadmin.module.business.peony.domain.dto.ActivityQueryDTO;
 import net.lab1024.smartadmin.module.business.peony.domain.vo.ActivityVO;
@@ -50,6 +51,7 @@ public class ActivityController extends BaseController {
      * @return: java.util.Map
      * @Author: 莫京 2021/8/11
      */
+    @ApiOperation(value = "后台：关键词输入解析地址", notes = "@author 莫京")
     @GetMapping("/tmapA")
     public ResponseDTO<Map> getLocation(String region, String address, HttpServletResponse response) {
         Map data = new HashMap();
@@ -68,6 +70,7 @@ public class ActivityController extends BaseController {
      * @return: java.util.Map
      * @Author: 莫京 2021/8/11
      */
+    @ApiOperation(value = "后台：逆地址解析（位置描述）", notes = "@author 莫京")
     @GetMapping("/tmapL")
     public ResponseDTO<Map> getLongitudeAndLatitude(String location) {
         Map data = new HashMap();
@@ -79,7 +82,6 @@ public class ActivityController extends BaseController {
         return ResponseDTO.succData(data, "tmapL方法调用成功");
     }
 
-
     /**
      * 后台：获取活动分页列表
      *
@@ -87,7 +89,7 @@ public class ActivityController extends BaseController {
      * @return: net.lab1024.smartadmin.common.domain.ResponseDTO<net.lab1024.smartadmin.common.domain.PageResultDTO < net.lab1024.smartadmin.module.business.peony.domain.vo.ActivityVO>>
      * @Author: 莫京 2021/8/17
      */
-    @ApiOperation(value = "分页查询活动", notes = "@author 莫京")
+    @ApiOperation(value = "后台：获取活动分页列表", notes = "@author 莫京")
     @PostMapping("/page/query")
     public ResponseDTO<PageResultDTO<ActivityVO>> queryByPage(@RequestBody ActivityQueryDTO queryDTO) {
         ResponseDTO<PageResultDTO<ActivityVO>> pageResultDTOResponseDTO = as.queryByPage(queryDTO);
@@ -101,7 +103,7 @@ public class ActivityController extends BaseController {
      * @return: net.lab1024.smartadmin.common.domain.ResponseDTO<java.lang.String>
      * @Author: 莫京 2021/8/17
      */
-    @ApiOperation(value = "添加活动", notes = "@author 莫京")
+    @ApiOperation(value = "后台：新增/更新活动", notes = "@author 莫京")
     @PostMapping("/save")
     public ResponseDTO<String> saveAct(@RequestBody @Validated ActivityAddDTO addTO) {
         return as.saveAct(addTO);
@@ -113,6 +115,7 @@ public class ActivityController extends BaseController {
      * @return: java.util.Map
      * @Author: 莫京 2021/8/17
     */
+    @ApiOperation(value = "小程序：获取未到结束时间的活动", notes = "@author 莫京")
     @RequestMapping("/getActivities")
     @NoNeedLogin
     public Map getOngoingActivities(){
@@ -122,6 +125,18 @@ public class ActivityController extends BaseController {
         return data;
     }
 
+    @ApiOperation(value="批量删除活动",notes = "@author 莫京")
+    @RequestMapping("/deleteByIds")
+    @NoNeedLogin
+    public ResponseDTO<String> delete(@RequestBody @Validated ValidateList<Long> idList) {
+        System.out.println("idList = " + idList);
+        return as.deleteByIds(idList);
+    }
+
+
+
+
+
 
 //
 //    @ApiOperation(value="修改牡丹花",notes = "@author 卓大")
@@ -130,11 +145,6 @@ public class ActivityController extends BaseController {
 //        return peonyService.update(updateDTO);
 //    }
 //
-//    @ApiOperation(value="批量删除牡丹花",notes = "@author 卓大")
-//    @PostMapping("/peony/deleteByIds")
-//    public ResponseDTO<String> delete(@RequestBody @Validated ValidateList<Long> idList) {
-//        return peonyService.deleteByIds(idList);
-//    }
 //
 //    @ApiOperation(value = "批量导出", notes = "@author 卓大")
 //    @PostMapping("/peony/export/batch")
