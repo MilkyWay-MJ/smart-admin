@@ -14,6 +14,7 @@ import net.lab1024.smartadmin.module.business.peony.domain.vo.ActivityVO;
 
 import net.lab1024.smartadmin.module.business.peony.service.ActivityService;
 
+import net.lab1024.smartadmin.module.system.role.basic.domain.dto.RoleVO;
 import net.lab1024.smartadmin.util.HttpUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -133,7 +134,12 @@ public class ActivityController extends BaseController {
         return as.deleteByIds(idList);
     }
 
-
+    @ApiOperation(value = "获取所有角色", notes = "获取所有角色数据")
+    @GetMapping("/role/getAll")
+    public ResponseDTO<List<ActivityVO>> getAllRole() {
+        return null;// todo 做到这里
+//        return as.getOngoingActivities() ;
+    }
 
 
 
