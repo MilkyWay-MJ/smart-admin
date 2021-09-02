@@ -239,6 +239,12 @@
             <optional>true</optional>
         </dependency>
 
+        <!--实体entity转换VO使用的工具类-->
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-all</artifactId>
+            <version>5.7.10</version>
+        </dependency>
     </dependencies>
 
     <build>
