@@ -1,3 +1,4 @@
+/* 完成率 */
 <template>
   <div class="gauge-main"
        id="box"

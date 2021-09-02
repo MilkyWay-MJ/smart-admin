@@ -1,3 +1,4 @@
+/* 目标完成度 */
 <template>
   <div class="circle-main">
     <i-circle :percent="80"

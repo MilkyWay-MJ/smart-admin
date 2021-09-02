@@ -1,3 +1,4 @@
+/* 首页-用户活跃量 */
 <template>
   <div class="active-plate-main">
     <ul class="active-list">

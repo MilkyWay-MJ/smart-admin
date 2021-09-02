@@ -110,6 +110,7 @@ export default {
       object.id = this.activityId;
       this.currentPage = number;
       object.pageNum = number;
+      console.log(this.pageSize);
       object.pageSize = this.pageSize;// todo z
       object.sort = "";
       this.getUsersByActivityId(object);

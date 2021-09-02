@@ -26,4 +26,13 @@ export const activityApi = {
     batchExport: (idList) => {
         return postDownloadAxios('/activity/export/batch', idList);
     },
+    // 获取所有进行中活动
+    getGoingActivity: (data) => {
+        return getAxios('/activity/getActivities', data);
+    },
+    // ****************活动人员部分*****************************************//
+    // 获取所有进行中活动
+    getUsersByActivityId: (data) => {
+        return getAxios('/sign/getUsersByActivityId', data);
+    },
 };

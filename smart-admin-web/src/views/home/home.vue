@@ -2,12 +2,19 @@
   <div>
     <Row>
       <Col>
-        <HomeCard desc="Pending transaction" title="用户活跃量">
+        <HomeCard desc="SignIn manage" title="签到管理">
+          <ActivityGoing :value="goingOnActivityData" />
+        </HomeCard>
+      </Col>
+    </Row>
+    <Row>
+      <Col>
+        <HomeCard desc="Pending transaction" title="人员活跃量">
           <ActivePlate :infoList="infoCardData" />
         </HomeCard>
       </Col>
     </Row>
-    <Row :gutter="20">
+    <!-- <Row :gutter="20">
       <i-col :lg="6" :md="24">
         <HomeCard desc="User from" title="用户来源">
           <ChartPie :value="pieData" />
@@ -47,7 +54,7 @@
           <ChartFunnel :value="pieData" />
         </HomeCard>
       </i-col>
-    </Row>
+    </Row> -->
 
 
   <!-- <Modal
@@ -69,11 +76,13 @@ import ChartBar from './components/chart-bar';
 import HomeCircle from './components/home-circle';
 import HomeProgress from './components/home-progress';
 import ChartFunnel from './components/chart-funnel';
-import Ad from '@/components/smart-admin-ad';
+import ActivityGoing from './components/activity-going.vue';
+import Ad from '@/components/smart-admin-ad';// 登录时弹窗，太啰嗦了关掉先
 
 export default {
   name: 'Home',
   components: {
+    ActivityGoing,
     HomeCard,
     ActivePlate,
     CountTo,
@@ -84,34 +93,44 @@ export default {
     ChartGauge,
     ChartBar,
     HomeProgress,
-    // Ad
+    // Ad // 登录时弹窗，太啰嗦了关掉先
   },
   props: {},
   data() {
     return {
-      adModal:true,
+      // adModal:true,// 登录时弹窗，太啰嗦了关掉先
+      goingOnActivityData: [
+        {
+          id: 1,
+          name: '年会活动',
+        },
+        {
+          id: 2,
+          name: '素质拓展',
+        },
+      ],
       infoCardData: [
         {
-          title: '新增用户',
+          title: '应到人数',
           icon: 'md-person-add',
           count: 803,
           color: '#11A0F8'
         },
-        { title: '累计点击', icon: 'md-locate', count: 232, color: '#FFBB44 ' },
+        { title: '签到人数', icon: 'md-locate', count: 232, color: '#7ACE4C ' },
         {
-          title: '新增问答',
+          title: '未签人数',
           icon: 'md-help-circle',
           count: 142,
-          color: '#7ACE4C'
+          color: '#FFBB44'
         },
-        { title: '分享统计', icon: 'md-share', count: 657, color: '#11A0F8' },
-        {
-          title: '新增互动',
-          icon: 'md-chatbubbles',
-          count: 12,
-          color: '#91AFC8'
-        },
-        { title: '新增页面', icon: 'md-map', count: 14, color: '#91AFC8' }
+        // { title: '分享统计', icon: 'md-share', count: 657, color: '#11A0F8' },
+        // {
+        //   title: '新增互动',
+        //   icon: 'md-chatbubbles',
+        //   count: 12,
+        //   color: '#91AFC8'
+        // },
+        // { title: '新增页面', icon: 'md-map', count: 14, color: '#91AFC8' }
       ],
       pieData: [
         { value: 335, name: '直接访问', color: '#3AA1FF' },

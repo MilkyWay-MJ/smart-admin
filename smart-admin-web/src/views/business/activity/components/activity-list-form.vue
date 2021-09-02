@@ -285,6 +285,7 @@ export default {
       this.form.endTime = this.form.endTime == '' || this.form.endTime == null ? '' : this.getDateStr(this.form.endTime);
       this.form.validTime = this.form.validTime == '' || this.form.validTime == null ? '' : this.getDateStr(this.form.validTime);
       let res = await activityApi.updateActivity(this.form);
+      console.log(res);
       this.$Message.success(res.msg);
       this.$Spin.hide();
       this.resetForm();

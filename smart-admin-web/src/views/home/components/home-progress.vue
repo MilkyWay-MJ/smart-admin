@@ -1,3 +1,4 @@
+/* 进度条 */
 <template>
   <div class="progress-list">
     <div :key="item.name"
@@ -8,7 +9,7 @@
         {{item.name}}
         <span>{{item.value}}</span>
       </p>
-      <Progress :percent="45"
+      <Progress :percent="55"
                 :stroke-color="item.color"
                 :stroke-width="16"
                 class="progress"

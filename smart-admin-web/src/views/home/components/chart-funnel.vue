@@ -1,3 +1,4 @@
+/* 漏斗图 */
 <template>
   <div class="funnel-main"
        id="box"
