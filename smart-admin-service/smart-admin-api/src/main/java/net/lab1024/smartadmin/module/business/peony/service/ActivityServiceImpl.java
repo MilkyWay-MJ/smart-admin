@@ -8,14 +8,17 @@ import net.lab1024.smartadmin.common.domain.PageResultDTO;
 import net.lab1024.smartadmin.common.domain.ResponseDTO;
 import net.lab1024.smartadmin.common.domain.ValidateList;
 import net.lab1024.smartadmin.module.business.peony.dao.ActivityDao;
+import net.lab1024.smartadmin.module.business.peony.dao.SignDao;
 import net.lab1024.smartadmin.module.business.peony.domain.dto.ActivityAddDTO;
 import net.lab1024.smartadmin.module.business.peony.domain.dto.ActivityQueryDTO;
 import net.lab1024.smartadmin.module.business.peony.domain.entity.ActivityEntity;
 import net.lab1024.smartadmin.module.business.peony.domain.vo.ActivityVO;
 import net.lab1024.smartadmin.util.SmartBeanUtil;
 import net.lab1024.smartadmin.util.SmartPageUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.Date;
@@ -26,7 +29,7 @@ import java.util.List;
  *
  * @author 莫京
  * @version 1.0
- * @company 1024创新实验室( www.1024lab.net )
+ * @company 1024创新实验室(www.1024lab.net)
  * @copyright (c)  1024创新实验室( www.1024lab.net )Inc. All rights reserved.
  * @date 2020-04-06 18:17:56
  * @since JDK1.8
@@ -35,11 +38,15 @@ import java.util.List;
 @Primary
 public class ActivityServiceImpl extends ServiceImpl<ActivityDao, ActivityEntity> implements ActivityService {
 
-    @Resource
+    @Autowired
     private ActivityDao activityDao;
+
+    @Autowired
+    private SignDao signDao;
 
     /**
      * 分页查询
+     *
      * @author 莫京
      * @date 2021-08-10 18:17:56
      */
@@ -53,10 +60,12 @@ public class ActivityServiceImpl extends ServiceImpl<ActivityDao, ActivityEntity
 
     /**
      * 添加/更新
+     *
      * @author 莫京
      * @date 2021-08-10 18:17:56
      */
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public ResponseDTO<String> saveAct(ActivityAddDTO addDTO) {
         ActivityEntity entity = SmartBeanUtil.copy(addDTO, ActivityEntity.class);
         if (entity.getId() == null) {
@@ -69,6 +78,7 @@ public class ActivityServiceImpl extends ServiceImpl<ActivityDao, ActivityEntity
 
     /**
      * 获取没到结束时间的活动
+     *
      * @param
      * @return: java.util.List<net.lab1024.smartadmin.module.business.peony.domain.vo.ActivityVO>
      * @Author: 莫京 2021/8/17
@@ -76,23 +86,23 @@ public class ActivityServiceImpl extends ServiceImpl<ActivityDao, ActivityEntity
     @Override
     public List<ActivityVO> getOngoingActivities() {
         QueryWrapper queryWrapper = new QueryWrapper();
-        queryWrapper.ge("end_time",new Date());
-        return (List<ActivityVO>)activityDao.selectList(queryWrapper);
+        queryWrapper.ge("end_time", new Date());
+        return (List<ActivityVO>) activityDao.selectList(queryWrapper);
     }
 
     /**
      * 批量删除活动
+     *
      * @param idList
      * @return: net.lab1024.smartadmin.common.domain.ResponseDTO<java.lang.String>
      * @Author: 莫京 2021/8/18
      */
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public ResponseDTO<String> deleteByIds(ValidateList<Long> idList) {
-        int i = activityDao.deleteBatchIds(idList);
-//        activityDao.deleteByIdList(idList);
+        activityDao.deleteBatchIds(idList);
         return ResponseDTO.succ();
     }
-
 
 //
 //    /**

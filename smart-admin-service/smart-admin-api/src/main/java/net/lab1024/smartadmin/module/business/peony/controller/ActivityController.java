@@ -111,12 +111,12 @@ public class ActivityController extends BaseController {
     }
 
     /**
-     * 小程序：获取未到结束时间的活动
+     * 后台、小程序：获取未到结束时间的活动
      * @param
      * @return: java.util.Map
      * @Author: 莫京 2021/8/17
     */
-    @ApiOperation(value = "小程序：获取未到结束时间的活动", notes = "@author 莫京")
+    @ApiOperation(value = "后台、小程序：获取未到结束时间的活动", notes = "@author 莫京")
     @RequestMapping("/getActivities")
     @NoNeedLogin
     public Map getOngoingActivities(){
@@ -128,17 +128,8 @@ public class ActivityController extends BaseController {
 
     @ApiOperation(value="批量删除活动",notes = "@author 莫京")
     @RequestMapping("/deleteByIds")
-    @NoNeedLogin
     public ResponseDTO<String> delete(@RequestBody @Validated ValidateList<Long> idList) {
-        System.out.println("idList = " + idList);
         return as.deleteByIds(idList);
-    }
-
-    @ApiOperation(value = "获取所有角色", notes = "获取所有角色数据")
-    @GetMapping("/role/getAll")
-    public ResponseDTO<List<ActivityVO>> getAllRole() {
-        return null;// todo 做到这里
-//        return as.getOngoingActivities() ;
     }
 
 

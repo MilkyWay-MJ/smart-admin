@@ -2,21 +2,28 @@ package net.lab1024.smartadmin.module.business.peony.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import net.lab1024.smartadmin.common.anno.NoNeedLogin;
 import net.lab1024.smartadmin.common.controller.BaseController;
+import net.lab1024.smartadmin.common.domain.PageResultDTO;
+import net.lab1024.smartadmin.common.domain.ResponseDTO;
+import net.lab1024.smartadmin.module.business.peony.domain.dto.ActivityQueryDTO;
 import net.lab1024.smartadmin.module.business.peony.domain.dto.SignDTO;
 import net.lab1024.smartadmin.module.business.peony.domain.entity.ActivityEntity;
 import net.lab1024.smartadmin.module.business.peony.domain.entity.SignEntity;
 import net.lab1024.smartadmin.module.business.peony.domain.entity.WxBean;
 import net.lab1024.smartadmin.module.business.peony.domain.vo.ActivityVO;
+import net.lab1024.smartadmin.module.business.peony.domain.vo.SignVO;
 import net.lab1024.smartadmin.module.business.peony.service.ActivityService;
 import net.lab1024.smartadmin.module.business.peony.service.SignService;
 import net.lab1024.smartadmin.util.HttpUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -24,6 +31,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -142,4 +150,11 @@ public class SignController extends BaseController {
         return data;
     }
 
+    @ApiOperation(value = "获取人员列表", notes = "根据id获取人员列表")
+    @RequestMapping("/getUsersByActivityId")
+    public ResponseDTO<IPage<SignVO>> getUserByActId(ActivityQueryDTO queryDTO) {
+
+        System.out.println("queryDTO = " + queryDTO);
+        return signService.getUserByActId(queryDTO);
+    }
 }
