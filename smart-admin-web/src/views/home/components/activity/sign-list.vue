@@ -111,7 +111,7 @@ export default {
       this.currentPage = number;
       object.pageNum = number;
       console.log(this.pageSize);
-      object.pageSize = this.pageSize;// todo z
+      object.pageSize = this.pageSize;// todo 获取不到值
       object.sort = "";
       this.getUsersByActivityId(object);
     },
@@ -123,7 +123,8 @@ export default {
         console.log(response);
         this.roleList = response.data;
         this.total = response.data.total;
-        this.pageSize = response.data.pageSize;
+        console.log(response.data.size);
+        this.pageSize = response.data.size;
         this.tableData = this.roleList.records;
       } catch (e) {
         //TODO zhuoda sentry

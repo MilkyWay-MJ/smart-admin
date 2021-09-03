@@ -34,6 +34,12 @@ public class ActivityQueryDTO extends PageParamDTO {
     @ApiModelProperty("活动结束时间")
     private Date endTime;
 
+    @ApiModelProperty("活动结束时间-开始")
+    private Date endTimeBegin;
+
+    @ApiModelProperty("活动结束时间-截止")
+    private Date endTimeEnd;
+
     @ApiModelProperty("创建时间-开始")
     private Date createTimeBegin;
 

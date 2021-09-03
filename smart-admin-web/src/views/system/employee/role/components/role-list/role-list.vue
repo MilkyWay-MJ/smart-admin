@@ -290,6 +290,7 @@ export default {
       object.roleId = this.roleId;
       this.currentPage = number;
       object.pageNum = number;
+      console.log(this.pageSize);
       object.pageSize = this.pageSize;
       object.sort = '';
       this.getListEmployee(object);

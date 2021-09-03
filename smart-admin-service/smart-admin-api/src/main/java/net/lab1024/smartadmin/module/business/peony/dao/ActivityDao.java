@@ -8,6 +8,7 @@ import net.lab1024.smartadmin.module.business.peony.domain.dto.PeonyQueryDTO;
 import net.lab1024.smartadmin.module.business.peony.domain.entity.ActivityEntity;
 import net.lab1024.smartadmin.module.business.peony.domain.entity.PeonyEntity;
 import net.lab1024.smartadmin.module.business.peony.domain.entity.SignEntity;
+import net.lab1024.smartadmin.module.business.peony.domain.vo.ActivityExcelVO;
 import net.lab1024.smartadmin.module.business.peony.domain.vo.ActivityVO;
 import net.lab1024.smartadmin.module.business.peony.domain.vo.PeonyExcelVO;
 import net.lab1024.smartadmin.module.business.peony.domain.vo.PeonyVO;
@@ -45,6 +46,20 @@ public interface ActivityDao extends BaseMapper<ActivityEntity> {
      */
     void deleteByIdList(@Param("idList") List<Long> idList);
 
+    /**
+     * 查询批量导出数据
+     * @param idList
+     * @return
+     */
+    List<ActivityExcelVO> queryBatchExportData(@Param("idList") List<Long> idList);
+
+    /**
+     * 查询所有导出数据
+     * @param queryDTO
+     * @return
+     */
+    List<ActivityExcelVO> queryAllExportData(@Param("queryDTO") ActivityQueryDTO queryDTO);
+
 //    /**
 //     * 根据id删除
 //     * @param id
@@ -59,17 +74,4 @@ public interface ActivityDao extends BaseMapper<ActivityEntity> {
 //    */
 //    void deleteByIdList(@Param("idList") List<Long> idList);
 //
-//        /**
-//     * 查询所有导出数据
-//     * @param queryDTO
-//     * @return
-//     */
-//    List<PeonyExcelVO> queryAllExportData(@Param("queryDTO") PeonyQueryDTO queryDTO);
-//
-//        /**
-//         * 查询批量导出数据
-//         * @param idList
-//         * @return
-//         */
-//    List<PeonyExcelVO> queryBatchExportData(@Param("idList") List<Long> idList);
 }

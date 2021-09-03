@@ -1,5 +1,7 @@
 package net.lab1024.smartadmin.module.business.peony.controller;
 
+import cn.afterturn.easypoi.excel.ExcelExportUtil;
+import cn.afterturn.easypoi.excel.entity.ExportParams;
 import com.alibaba.fastjson.JSON;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -10,12 +12,16 @@ import net.lab1024.smartadmin.common.domain.ResponseDTO;
 import net.lab1024.smartadmin.common.domain.ValidateList;
 import net.lab1024.smartadmin.module.business.peony.domain.dto.ActivityAddDTO;
 import net.lab1024.smartadmin.module.business.peony.domain.dto.ActivityQueryDTO;
+import net.lab1024.smartadmin.module.business.peony.domain.dto.PeonyQueryDTO;
+import net.lab1024.smartadmin.module.business.peony.domain.vo.ActivityExcelVO;
 import net.lab1024.smartadmin.module.business.peony.domain.vo.ActivityVO;
 
+import net.lab1024.smartadmin.module.business.peony.domain.vo.PeonyExcelVO;
 import net.lab1024.smartadmin.module.business.peony.service.ActivityService;
 
 import net.lab1024.smartadmin.module.system.role.basic.domain.dto.RoleVO;
 import net.lab1024.smartadmin.util.HttpUtils;
+import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.validation.annotation.Validated;
@@ -132,8 +138,27 @@ public class ActivityController extends BaseController {
         return as.deleteByIds(idList);
     }
 
+    @ApiOperation(value = "批量导出", notes = "@author 莫京")
+    @PostMapping("/export/batch")
+    public void batchExport(@RequestBody @Validated ValidateList<Long> idList, HttpServletResponse response) {
+        //查询数据
+        List<ActivityExcelVO> activityList = as.queryBatchExportData(idList);
+        //导出操作
+        ExportParams ex = new ExportParams("活动列表", "Sheet1");
+        Workbook workbook = ExcelExportUtil.exportExcel(ex, ActivityExcelVO.class, activityList);
+        downloadExcel("活动列表", workbook, response);
+    }
 
-
+    @ApiOperation(value = "导出全部", notes = "@author 莫京")
+    @PostMapping("/export/all")
+    public void exportAll(@RequestBody @Validated ActivityQueryDTO queryDTO, HttpServletResponse response) {
+        //查询数据
+        List<ActivityExcelVO> activityList = as.queryAllExportData(queryDTO);
+        //导出操作
+        ExportParams ex = new ExportParams("活动列表", "Sheet1");
+        Workbook workbook = ExcelExportUtil.exportExcel(ex, ActivityExcelVO.class, activityList);
+        downloadExcel("活动列表", workbook, response);
+    }
 
 //
 //    @ApiOperation(value="修改牡丹花",notes = "@author 卓大")
@@ -143,26 +168,8 @@ public class ActivityController extends BaseController {
 //    }
 //
 //
-//    @ApiOperation(value = "批量导出", notes = "@author 卓大")
-//    @PostMapping("/peony/export/batch")
-//    public void batchExport(@RequestBody @Validated ValidateList<Long> idList, HttpServletResponse response) {
-//        //查询数据
-//        List<PeonyExcelVO> peonyList = peonyService.queryBatchExportData(idList);
-//        //导出操作
-//        ExportParams ex = new ExportParams("牡丹花", "Sheet1");
-//        Workbook workbook = ExcelExportUtil.exportExcel(ex, PeonyExcelVO.class, peonyList);
-//        downloadExcel("牡丹花", workbook, response);
-//    }
-//
-//    @ApiOperation(value = "导出全部", notes = "@author 卓大")
-//    @PostMapping("/peony/export/all")
-//    public void exportAll(@RequestBody @Validated PeonyQueryDTO queryDTO, HttpServletResponse response) {
-//        //查询数据
-//        List<PeonyExcelVO> peonyList = peonyService.queryAllExportData(queryDTO);
-//        //导出操作
-//        ExportParams ex = new ExportParams("牡丹花", "Sheet1");
-//        Workbook workbook = ExcelExportUtil.exportExcel(ex, PeonyExcelVO.class, peonyList);
-//        downloadExcel("牡丹花", workbook, response);
-//    }
+
+
+
 
 }

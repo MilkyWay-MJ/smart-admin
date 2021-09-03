@@ -6,8 +6,11 @@ import net.lab1024.smartadmin.common.domain.ResponseDTO;
 import net.lab1024.smartadmin.common.domain.ValidateList;
 import net.lab1024.smartadmin.module.business.peony.domain.dto.ActivityAddDTO;
 import net.lab1024.smartadmin.module.business.peony.domain.dto.ActivityQueryDTO;
+import net.lab1024.smartadmin.module.business.peony.domain.dto.PeonyQueryDTO;
 import net.lab1024.smartadmin.module.business.peony.domain.entity.ActivityEntity;
+import net.lab1024.smartadmin.module.business.peony.domain.vo.ActivityExcelVO;
 import net.lab1024.smartadmin.module.business.peony.domain.vo.ActivityVO;
+import net.lab1024.smartadmin.module.business.peony.domain.vo.PeonyExcelVO;
 
 import java.util.List;
 
@@ -55,4 +58,22 @@ public interface ActivityService extends IService<ActivityEntity> {
      * @Author: 莫京 2021/8/18
      */
     ResponseDTO<String> deleteByIds(ValidateList<Long> idList);
+
+    /**
+     * 导出选中活动
+     *
+     * @param idList
+     * @return:
+     * @Author: 莫京 2021/9/3
+    */
+    List<ActivityExcelVO> queryBatchExportData(ValidateList<Long> idList);
+
+    /**
+     * 导出全部活动
+     *
+     * @param queryDTO
+     * @return:
+     * @Author: 莫京 2021/9/3
+    */
+    List<ActivityExcelVO> queryAllExportData(ActivityQueryDTO queryDTO);
 }

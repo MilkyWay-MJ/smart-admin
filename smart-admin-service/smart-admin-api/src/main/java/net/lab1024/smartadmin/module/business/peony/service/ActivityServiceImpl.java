@@ -11,8 +11,11 @@ import net.lab1024.smartadmin.module.business.peony.dao.ActivityDao;
 import net.lab1024.smartadmin.module.business.peony.dao.SignDao;
 import net.lab1024.smartadmin.module.business.peony.domain.dto.ActivityAddDTO;
 import net.lab1024.smartadmin.module.business.peony.domain.dto.ActivityQueryDTO;
+import net.lab1024.smartadmin.module.business.peony.domain.dto.PeonyQueryDTO;
 import net.lab1024.smartadmin.module.business.peony.domain.entity.ActivityEntity;
+import net.lab1024.smartadmin.module.business.peony.domain.vo.ActivityExcelVO;
 import net.lab1024.smartadmin.module.business.peony.domain.vo.ActivityVO;
+import net.lab1024.smartadmin.module.business.peony.domain.vo.PeonyExcelVO;
 import net.lab1024.smartadmin.util.SmartBeanUtil;
 import net.lab1024.smartadmin.util.SmartPageUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,9 +43,6 @@ public class ActivityServiceImpl extends ServiceImpl<ActivityDao, ActivityEntity
 
     @Autowired
     private ActivityDao activityDao;
-
-    @Autowired
-    private SignDao signDao;
 
     /**
      * 分页查询
@@ -104,6 +104,16 @@ public class ActivityServiceImpl extends ServiceImpl<ActivityDao, ActivityEntity
         return ResponseDTO.succ();
     }
 
+    @Override
+    public List<ActivityExcelVO> queryBatchExportData(ValidateList<Long> idList) {
+        return activityDao.queryBatchExportData(idList);
+    }
+
+    @Override
+    public List<ActivityExcelVO> queryAllExportData(ActivityQueryDTO queryDTO) {
+        return activityDao.queryAllExportData(queryDTO);
+    }
+
 //
 //    /**
 //     * 编辑
@@ -128,21 +138,4 @@ public class ActivityServiceImpl extends ServiceImpl<ActivityDao, ActivityEntity
 //        return ResponseDTO.succ();
 //    }
 //
-//    /**
-//     * 查询全部导出对象
-//     * @author 卓大
-//     * @date 2020-04-06 18:17:56
-//     */
-//    public List<PeonyExcelVO> queryAllExportData(PeonyQueryDTO queryDTO) {
-//        return peonyDao.queryAllExportData( queryDTO);
-//    }
-//
-//    /**
-//     * 批量查询导出对象
-//     * @author 卓大
-//     * @date 2020-04-06 18:17:56
-//     */
-//    public List<PeonyExcelVO> queryBatchExportData(List<Long> idList) {
-//        return peonyDao.queryBatchExportData(idList);
-//    }
 }
