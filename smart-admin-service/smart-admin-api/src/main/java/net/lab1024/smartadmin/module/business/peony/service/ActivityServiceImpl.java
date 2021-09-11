@@ -1,7 +1,9 @@
 package net.lab1024.smartadmin.module.business.peony.service;
 
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import net.lab1024.smartadmin.common.domain.PageResultDTO;
@@ -68,10 +70,23 @@ public class ActivityServiceImpl extends ServiceImpl<ActivityDao, ActivityEntity
     @Transactional(rollbackFor = Exception.class)
     public ResponseDTO<String> saveAct(ActivityAddDTO addDTO) {
         ActivityEntity entity = SmartBeanUtil.copy(addDTO, ActivityEntity.class);
-        if (entity.getId() == null) {
-            activityDao.insert(entity);
-        } else {
-            activityDao.updateById(entity);
+        try {
+            // 新增
+            if (entity.getId() == null) {
+                activityDao.insert(entity);
+            } else {
+                ActivityEntity activityEntity = activityDao.selectById(entity.getId());
+                // 修改
+    //            activityDao.updateById(entity);// 用这个方法修改时当值为空字段会不生效
+                activityDao.update(
+                        entity,
+                        Wrappers.<ActivityEntity>lambdaUpdate()
+                            .set(ActivityEntity::getEndTime,entity.getEndTime())
+                            .set(ActivityEntity::getId,entity.getId())// 非常重要！！！，没有id会update所有的表数据
+                );
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         return ResponseDTO.succ();
     }

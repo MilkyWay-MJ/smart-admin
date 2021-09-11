@@ -157,8 +157,8 @@ export default {
 
         // 开始时间
         // startTime:[{ required: true, message: '请输入开始时间', trigger: 'blur' }],
-        // // 结束时间
-        // endTime:[{ message: '请输入结束时间', trigger: 'blur' }],
+        // 结束时间
+        // endTime: [{required: true, message: '请输入结束时间', trigger: 'blur' }],
         // // 签到截止时间
         // validTime:[{  message: '请输入签到截止时间', trigger: 'blur' }],
         // // 活动简介
@@ -269,9 +269,9 @@ export default {
     },
     async add() {
       this.$Spin.show();
-      this.form.startTime = this.form.startTime == '' || this.form.startTime == null ? '' : this.getDateStr(this.form.startTime);
-      this.form.endTime = this.form.endTime == '' || this.form.endTime == null ? '' : this.getDateStr(this.form.endTime);
-      this.form.validTime = this.form.validTime == '' || this.form.validTime == null ? '' : this.getDateStr(this.form.validTime);
+      this.form.startTime = this.form.startTime == null ? '' : this.getDateStr(this.form.startTime);
+      this.form.endTime = this.form.endTime == null ? '' : this.getDateStr(this.form.endTime);
+      this.form.validTime = this.form.validTime == null ? '' : this.getDateStr(this.form.validTime);
       let res = await activityApi.addActivity(this.form);
       // debugger;
       this.$Message.success(res.msg);
@@ -281,9 +281,11 @@ export default {
     },
     async update() {
       this.$Spin.show();
-      this.form.startTime = this.form.startTime == '' || this.form.startTime == null ? '' : this.getDateStr(this.form.startTime);
-      this.form.endTime = this.form.endTime == '' || this.form.endTime == null ? '' : this.getDateStr(this.form.endTime);
-      this.form.validTime = this.form.validTime == '' || this.form.validTime == null ? '' : this.getDateStr(this.form.validTime);
+      this.form.startTime = this.form.startTime == null ? '' : this.getDateStr(this.form.startTime);
+      console.log(this.form.endTime);
+      this.form.endTime = this.form.endTime == null ? '' : this.getDateStr(this.form.endTime);
+      console.log(this.form.endTime);
+      this.form.validTime = this.form.validTime == null ? '' : this.getDateStr(this.form.validTime);
       let res = await activityApi.updateActivity(this.form);
       console.log(res);
       this.$Message.success(res.msg);
@@ -293,27 +295,33 @@ export default {
     },
 
     getDateStr (d) {
-      const year = d.getFullYear();
-      const month = d.getMonth() + 1 < 10 ? '0' + (d.getMonth() + 1) : d.getMonth() + 1;
-      const date = d.getDate() < 10 ? '0' + d.getDate() : d.getDate();
-      const hours = d.getHours() < 10 ? '0' + d.getHours() : d.getHours();
-      const minutes = d.getMinutes() < 10 ? '0' + d.getMinutes() : d.getMinutes();
-      const second = d.getSeconds() < 10 ? '0' + d.getSeconds() : d.getSeconds();
-      let resStr = "";
-
-      resStr =
-        year +
-        "-" +
-        month +
-        "-" +
-        date +
-        " " +
-        hours +
-        ":" +
-        minutes +
-        ":" +
-        second;
-      return resStr;
+      // debugger
+      if(d != '') {
+        const year = d.getFullYear();
+        const month = d.getMonth() + 1 < 10 ? '0' + (d.getMonth() + 1) : d.getMonth() + 1;
+        const date = d.getDate() < 10 ? '0' + d.getDate() : d.getDate();
+        const hours = d.getHours() < 10 ? '0' + d.getHours() : d.getHours();
+        const minutes = d.getMinutes() < 10 ? '0' + d.getMinutes() : d.getMinutes();
+        const second = d.getSeconds() < 10 ? '0' + d.getSeconds() : d.getSeconds();
+        let resStr = "";
+  
+        resStr =
+          year +
+          "-" +
+          month +
+          "-" +
+          date +
+          " " +
+          hours +
+          ":" +
+          minutes +
+          ":" +
+          second;
+        return resStr;
+      } else {
+        return '';
+      }
+      
     },
   },
 };

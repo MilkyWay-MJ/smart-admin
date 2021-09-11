@@ -11,7 +11,7 @@ import importDirective from '@/directives';
 import JsonViewer from 'vue-json-viewer';
 import _ from 'lodash';
 // import { directive as clickOutside } from 'v-click-outside-x';
-import * as vClickOutside from 'v-click-outside-x';
+// import * as vClickOutside from 'v-click-outside-x';
 import installPlugin from '@/plugins';
 import './themes/index.less';
 import '@/assets/icons/iconfont.css';
@@ -34,20 +34,20 @@ Vue.use(eGuideLayer);
 Vue.prototype.$tableAction = tableAction;
 Vue.use(Enum, { enumInfo });
 Vue.use(ViewUI, {
-  i18n: (key, value) => i18n.t(key, value)
+    i18n: (key, value) => i18n.t(key, value)
 });
 Vue.use(JsonViewer);
-Vue.use(vClickOutside);
+// Vue.use(vClickOutside);
 
 
-Number.prototype.toFixed = function (length) {
-  let x = new Decimal(this);
-  return x.toFixed(length);
+Number.prototype.toFixed = function(length) {
+    let x = new Decimal(this);
+    return x.toFixed(length);
 };
 
 //时间处理
 moment.locale('zh-cn'); //设置语言 或 moment.lang('zh-cn');
-Vue.prototype.$moment = moment;//赋值使用
+Vue.prototype.$moment = moment; //赋值使用
 
 
 /**
@@ -72,9 +72,9 @@ window._ = _;
 
 /* eslint-disable no-new */
 new Vue({
-  el: '#app',
-  router,
-  i18n,
-  store,
-  render: h => h(App)
+    el: '#app',
+    router,
+    i18n,
+    store,
+    render: h => h(App)
 });

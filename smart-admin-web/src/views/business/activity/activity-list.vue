@@ -28,9 +28,9 @@
                     <Input placeholder="请输入参与人员" style="width: 180px" v-model="queryForm.color" />
                 </span> -->
         <span>
-          活动日期:
+          结束时间:
           <DatePicker
-            placeholder="选择活动日期范围"
+            placeholder="选择活动结束日期范围"
             split-panels
             style="width: 200px"
             type="daterange"
@@ -182,7 +182,7 @@
         <FormItem label="删除数据">
           <Card style="width: 350px; height: 250px; overflow-y: scroll">
             <ul>
-              <li v-for="item in mainTableSelectArray" >
+              <li v-for="item in mainTableSelectArray" :key="item.id">
                 <a href="#">{{ item.id }} {{item.name}}</a>
               </li>
             </ul>
