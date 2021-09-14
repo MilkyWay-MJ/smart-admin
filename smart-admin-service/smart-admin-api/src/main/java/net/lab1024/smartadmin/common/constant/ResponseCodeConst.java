@@ -39,6 +39,8 @@ public class ResponseCodeConst {
 
     public static final ResponseCodeConst SUCCESS = new ResponseCodeConst(1, "操作成功!", true);
 
+    public static final ResponseCodeConst ERROR = new ResponseCodeConst(0, "操作失败!", false);
+
     public static final ResponseCodeConst ERROR_PARAM = new ResponseCodeConst(101, "参数异常！");
 
     public static final ResponseCodeConst ERROR_PARAM_ANY = new ResponseCodeConst(102, "%s参数异常！");

@@ -60,6 +60,10 @@ public class ResponseDTO<T> {
         return new ResponseDTO(ResponseCodeConst.SUCCESS);
     }
 
+    public static <T> ResponseDTO<T> error() {
+        return new ResponseDTO(ResponseCodeConst.ERROR);
+    }
+
     public static <T> ResponseDTO<T> succData(T data, String msg) {
         return new ResponseDTO(ResponseCodeConst.SUCCESS, data, msg);
     }

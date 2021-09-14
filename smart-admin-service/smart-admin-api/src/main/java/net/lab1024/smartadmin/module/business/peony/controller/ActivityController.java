@@ -19,8 +19,10 @@ import net.lab1024.smartadmin.module.business.peony.domain.vo.ActivityVO;
 import net.lab1024.smartadmin.module.business.peony.domain.vo.PeonyExcelVO;
 import net.lab1024.smartadmin.module.business.peony.service.ActivityService;
 
+import net.lab1024.smartadmin.module.system.login.domain.RequestTokenBO;
 import net.lab1024.smartadmin.module.system.role.basic.domain.dto.RoleVO;
 import net.lab1024.smartadmin.util.HttpUtils;
+import net.lab1024.smartadmin.util.SmartRequestTokenUtil;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -118,21 +120,22 @@ public class ActivityController extends BaseController {
 
     /**
      * 后台、小程序：获取未到结束时间的活动
+     *
      * @param
      * @return: java.util.Map
      * @Author: 莫京 2021/8/17
-    */
+     */
     @ApiOperation(value = "后台、小程序：获取未到结束时间的活动", notes = "@author 莫京")
     @RequestMapping("/getActivities")
     @NoNeedLogin
-    public Map getOngoingActivities(){
+    public Map getOngoingActivities() {
         Map<String, List> data = new HashMap<>();
         List<ActivityVO> ongoingActivities = as.getOngoingActivities();
         data.put("ongoingActivities", ongoingActivities);
         return data;
     }
 
-    @ApiOperation(value="批量删除活动",notes = "@author 莫京")
+    @ApiOperation(value = "批量删除活动", notes = "@author 莫京")
     @RequestMapping("/deleteByIds")
     public ResponseDTO<String> delete(@RequestBody @Validated ValidateList<Long> idList) {
         return as.deleteByIds(idList);
@@ -159,17 +162,4 @@ public class ActivityController extends BaseController {
         Workbook workbook = ExcelExportUtil.exportExcel(ex, ActivityExcelVO.class, activityList);
         downloadExcel("活动列表", workbook, response);
     }
-
-//
-//    @ApiOperation(value="修改牡丹花",notes = "@author 卓大")
-//    @PostMapping("/peony/update")
-//    public ResponseDTO<String> update(@RequestBody @Validated PeonyUpdateDTO updateDTO){
-//        return peonyService.update(updateDTO);
-//    }
-//
-//
-
-
-
-
 }

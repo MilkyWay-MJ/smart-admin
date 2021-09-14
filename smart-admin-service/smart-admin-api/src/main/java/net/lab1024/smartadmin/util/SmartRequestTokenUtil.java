@@ -28,7 +28,14 @@ public class SmartRequestTokenUtil {
     public static RequestTokenBO getThreadLocalUser() {
         return RequestUserThreadLocal.get();
     }
-
+    
+    /** 
+     * 获取登录用户信息
+     *
+     * @param 
+     * @return: 
+     * @Author: 莫京 2021/9/13 
+    */
     public static RequestTokenBO getRequestUser() {
         RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
         if (requestAttributes != null) {

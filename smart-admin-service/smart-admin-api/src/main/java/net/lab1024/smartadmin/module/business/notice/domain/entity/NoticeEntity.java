@@ -30,7 +30,7 @@ public class NoticeEntity extends BaseEntity {
     /**
      * 消息创建人
      */
-    private Long createUser;
+//    private Long createUser;
 
     /**
      * 发送状态

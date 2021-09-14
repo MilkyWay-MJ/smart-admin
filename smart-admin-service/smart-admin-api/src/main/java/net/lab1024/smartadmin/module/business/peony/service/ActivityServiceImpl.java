@@ -18,8 +18,11 @@ import net.lab1024.smartadmin.module.business.peony.domain.entity.ActivityEntity
 import net.lab1024.smartadmin.module.business.peony.domain.vo.ActivityExcelVO;
 import net.lab1024.smartadmin.module.business.peony.domain.vo.ActivityVO;
 import net.lab1024.smartadmin.module.business.peony.domain.vo.PeonyExcelVO;
+import net.lab1024.smartadmin.module.system.employee.domain.bo.EmployeeBO;
+import net.lab1024.smartadmin.module.system.login.domain.RequestTokenBO;
 import net.lab1024.smartadmin.util.SmartBeanUtil;
 import net.lab1024.smartadmin.util.SmartPageUtil;
+import net.lab1024.smartadmin.util.SmartRequestTokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
@@ -46,12 +49,6 @@ public class ActivityServiceImpl extends ServiceImpl<ActivityDao, ActivityEntity
     @Autowired
     private ActivityDao activityDao;
 
-    /**
-     * 分页查询
-     *
-     * @author 莫京
-     * @date 2021-08-10 18:17:56
-     */
     @Override
     public ResponseDTO<PageResultDTO<ActivityVO>> queryByPage(ActivityQueryDTO queryDTO) {
         Page page = SmartPageUtil.convert2QueryPage(queryDTO);
@@ -60,44 +57,39 @@ public class ActivityServiceImpl extends ServiceImpl<ActivityDao, ActivityEntity
         return ResponseDTO.succData(pageResultDTO);
     }
 
-    /**
-     * 添加/更新
-     *
-     * @author 莫京
-     * @date 2021-08-10 18:17:56
-     */
     @Override
     @Transactional(rollbackFor = Exception.class)
     public ResponseDTO<String> saveAct(ActivityAddDTO addDTO) {
-        ActivityEntity entity = SmartBeanUtil.copy(addDTO, ActivityEntity.class);
+        ResponseDTO responseDTO = ResponseDTO.error();
+        ActivityEntity ae = new ActivityEntity();
+        EmployeeBO user = SmartRequestTokenUtil.getRequestUser().getEmployeeBO();
+
         try {
             // 新增
-            if (entity.getId() == null) {
-                activityDao.insert(entity);
-            } else {
-                ActivityEntity activityEntity = activityDao.selectById(entity.getId());
-                // 修改
-    //            activityDao.updateById(entity);// 用这个方法修改时当值为空字段会不生效
-                activityDao.update(
-                        entity,
-                        Wrappers.<ActivityEntity>lambdaUpdate()
-                            .set(ActivityEntity::getEndTime,entity.getEndTime())
-                            .set(ActivityEntity::getId,entity.getId())// 非常重要！！！，没有id会update所有的表数据
-                );
+            if (addDTO.getId() == null) {
+                ae.setCreateUser(user.getId());
+
+            } else { // 修改
+                ae = activityDao.selectById(addDTO.getId());
+                ae.setUpdateUser(user.getId());
+                ae.setUpdateTime(null);
             }
+            SmartBeanUtil.copyProperties(addDTO, ae);
+            this.saveOrUpdate(
+                    ae,
+                    Wrappers.<ActivityEntity>lambdaUpdate()
+                            .set(ActivityEntity::getStartTime, addDTO.getStartTime())
+                            .set(ActivityEntity::getEndTime, addDTO.getEndTime())
+                            .set(ActivityEntity::getValidTime, addDTO.getValidTime())
+                            .eq(ActivityEntity::getId, addDTO.getId())
+            );
+            responseDTO = ResponseDTO.succ();
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return ResponseDTO.succ();
+        return responseDTO;
     }
 
-    /**
-     * 获取没到结束时间的活动
-     *
-     * @param
-     * @return: java.util.List<net.lab1024.smartadmin.module.business.peony.domain.vo.ActivityVO>
-     * @Author: 莫京 2021/8/17
-     */
     @Override
     public List<ActivityVO> getOngoingActivities() {
         QueryWrapper queryWrapper = new QueryWrapper();
@@ -105,13 +97,6 @@ public class ActivityServiceImpl extends ServiceImpl<ActivityDao, ActivityEntity
         return (List<ActivityVO>) activityDao.selectList(queryWrapper);
     }
 
-    /**
-     * 批量删除活动
-     *
-     * @param idList
-     * @return: net.lab1024.smartadmin.common.domain.ResponseDTO<java.lang.String>
-     * @Author: 莫京 2021/8/18
-     */
     @Override
     @Transactional(rollbackFor = Exception.class)
     public ResponseDTO<String> deleteByIds(ValidateList<Long> idList) {
@@ -128,29 +113,4 @@ public class ActivityServiceImpl extends ServiceImpl<ActivityDao, ActivityEntity
     public List<ActivityExcelVO> queryAllExportData(ActivityQueryDTO queryDTO) {
         return activityDao.queryAllExportData(queryDTO);
     }
-
-//
-//    /**
-//     * 编辑
-//     * @author 卓大
-//     * @date 2020-04-06 18:17:56
-//     */
-//    @Transactional(rollbackFor = Exception.class)
-//    public ResponseDTO<String> update(PeonyUpdateDTO updateDTO) {
-//        PeonyEntity entity = SmartBeanUtil.copy(updateDTO, PeonyEntity.class);
-//        peonyDao.updateById(entity);
-//        return ResponseDTO.succ();
-//    }
-//
-//    /**
-//     * 删除
-//     * @author 卓大
-//     * @date 2020-04-06 18:17:56
-//     */
-//    @Transactional(rollbackFor = Exception.class)
-//    public ResponseDTO<String> deleteByIds(List<Long> idList) {
-//        peonyDao.deleteByIdList(idList);
-//        return ResponseDTO.succ();
-//    }
-//
 }

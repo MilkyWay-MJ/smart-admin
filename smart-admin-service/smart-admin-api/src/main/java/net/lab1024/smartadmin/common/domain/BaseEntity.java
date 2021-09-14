@@ -36,4 +36,13 @@ public class BaseEntity {
      */
     private Date createTime;
 
+    /**
+     * 创建人姓名
+     */
+    private Long createUser;
+
+    /**
+     * 更新人姓名
+     */
+    private Long updateUser;
 }
